@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, ImageBackground } from 'react-native';
 import { useSeq } from '../state/sequencer';
 import { PATTERNS } from '../patterns';
 import { Knob } from './Knob';
@@ -55,12 +55,12 @@ export function Panel() {
                       <Text style={styles.buttonLabel}>{parts[0]}</Text>
                       {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
                     </View>
-                    <TouchableOpacity
+                    <Pressable
                       style={styles.rhythmButton}
                       onPress={() => toggle(pat.id, pat.steps)}
                     >
                       <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
-                    </TouchableOpacity>
+                    </Pressable>
                   </View>
                 );
               })}
@@ -78,12 +78,12 @@ export function Panel() {
                       <Text style={styles.buttonLabel}>{parts[0]}</Text>
                       {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
                     </View>
-                    <TouchableOpacity
+                    <Pressable
                       style={styles.rhythmButton}
                       onPress={() => toggle(pat.id, pat.steps)}
                     >
                       <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
-                    </TouchableOpacity>
+                    </Pressable>
                   </View>
                 );
               })}
@@ -95,7 +95,7 @@ export function Panel() {
             {/* Mute triggers + Start */}
             <View style={styles.triggerColumn}>
               {MUTE_VOICES.map(({ id, label }) => (
-                <TouchableOpacity
+                <Pressable
                   key={id}
                   style={styles.triggerRow}
                   onPress={() => toggleMute(id)}
@@ -105,10 +105,10 @@ export function Panel() {
                   </View>
                   <Text style={styles.triggerLabel}>{label}</Text>
                   <View style={styles.triggerLabelLine} />
-                </TouchableOpacity>
+                </Pressable>
               ))}
 
-              <TouchableOpacity
+              <Pressable
                 style={[styles.triggerRow, { marginTop: 'auto', marginBottom: '15%' }]}
                 onPress={() => setRunning(!running)}
               >
@@ -117,7 +117,7 @@ export function Panel() {
                 </View>
                 <Text style={styles.triggerLabel}>START</Text>
                 <View style={[styles.triggerLabelLine, { width: 40 }]} />
-              </TouchableOpacity>
+              </Pressable>
             </View>
 
             {/* Knobs */}
