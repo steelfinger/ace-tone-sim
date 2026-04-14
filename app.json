@@ -22,6 +22,6 @@
       },
       "package": "com.acetone.fr1sim"
     },
-    "plugins": ["./plugins/withAudioApiPatch"]
+    "plugins": []
   }
 }
