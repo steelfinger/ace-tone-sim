@@ -15,7 +15,7 @@ A faithful simulator of the [Ace Tone FR-1](https://www.vintagesynth.com/misc/fr
 
 ## Stack
 
-- [Expo](https://expo.dev) SDK 52 / React Native 0.76
+- [Expo](https://expo.dev) SDK 55 / React Native 0.83
 - [react-native-audio-api](https://github.com/software-mansion/react-native-audio-api) — Web Audio API with native scheduling
 - [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/) + [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/) — rotary knobs
 - [Zustand](https://github.com/pmndrs/zustand) — state management
