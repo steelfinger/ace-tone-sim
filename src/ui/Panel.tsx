@@ -76,12 +76,15 @@ export function Panel() {
                       <Text style={styles.buttonLabel}>{parts[0]}</Text>
                       {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
                     </View>
-                    <Pressable
-                      style={styles.rhythmButton}
-                      onPress={() => toggle(pat.id, pat.steps)}
-                    >
-                      <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
-                    </Pressable>
+                    <View style={styles.rhythmButtonWrapper}>
+                      {!on && <Image source={require('../../assets/rect-shadow.png')} style={styles.rectShadowImage} />}
+                      <Pressable
+                        style={styles.rhythmButton}
+                        onPress={() => toggle(pat.id, pat.steps)}
+                      >
+                        <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
+                      </Pressable>
+                    </View>
                   </View>
                 );
               })}
@@ -99,12 +102,15 @@ export function Panel() {
                       <Text style={styles.buttonLabel}>{parts[0]}</Text>
                       {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
                     </View>
-                    <Pressable
-                      style={styles.rhythmButton}
-                      onPress={() => toggle(pat.id, pat.steps)}
-                    >
-                      <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
-                    </Pressable>
+                    <View style={styles.rhythmButtonWrapper}>
+                      {!on && <Image source={require('../../assets/rect-shadow.png')} style={styles.rectShadowImage} />}
+                      <Pressable
+                        style={styles.rhythmButton}
+                        onPress={() => toggle(pat.id, pat.steps)}
+                      >
+                        <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
+                      </Pressable>
+                    </View>
                   </View>
                 );
               })}
@@ -122,8 +128,11 @@ export function Panel() {
                   style={styles.triggerRow}
                   onPress={() => toggleMute(id)}
                 >
-                  <View style={styles.roundButton}>
-                    <Image source={mutes[id] ? require('../../assets/round-button-pressed.png') : require('../../assets/round-button.png')} style={styles.roundButtonImage} />
+                  <View style={styles.roundButtonWrapper}>
+                    {!mutes[id] && <Image source={require('../../assets/round-shadow.png')} style={styles.roundShadowImage} />}
+                    <View style={styles.roundButton}>
+                      <Image source={mutes[id] ? require('../../assets/round-button-pressed.png') : require('../../assets/round-button.png')} style={styles.roundButtonImage} />
+                    </View>
                   </View>
                   <Text style={styles.triggerLabel}>{label}</Text>
                   <View style={styles.triggerLabelLine} />
@@ -134,8 +143,11 @@ export function Panel() {
                 style={[styles.triggerRow, { marginTop: 'auto', marginBottom: '15%' }]}
                 onPress={() => setRunning(!running)}
               >
-                <View style={styles.roundButton}>
-                  <Image source={running ? require('../../assets/round-button-pressed.png') : require('../../assets/round-button.png')} style={styles.roundButtonImage} />
+                <View style={styles.roundButtonWrapper}>
+                  {!running && <Image source={require('../../assets/round-shadow.png')} style={styles.roundShadowImage} />}
+                  <View style={styles.roundButton}>
+                    <Image source={running ? require('../../assets/round-button-pressed.png') : require('../../assets/round-button.png')} style={styles.roundButtonImage} />
+                  </View>
                 </View>
                 <Text style={styles.triggerLabel}>START</Text>
                 <View style={[styles.triggerLabelLine, { width: 40 }]} />
@@ -158,6 +170,7 @@ export function Panel() {
                   <Text style={[styles.knobMark, { top: 48, left: 80 }]}>75</Text>
                 </View>
                 <View style={styles.blackKnobSizer}>
+                  <Image source={require('../../assets/round-shadow.png')} style={styles.knobShadowImage} />
                   <Knob
                     min={40} max={240}
                     value={bpm} onChange={setBpm}
@@ -169,6 +182,7 @@ export function Panel() {
               <View style={[styles.knobContainer, { marginTop: 30 }]}>
                 <Text style={styles.knobLabel}>VOLUME</Text>
                 <View style={[styles.blackKnobSizer, { width: 90, height: 90, marginTop: 10 }]}>
+                  <Image source={require('../../assets/round-shadow.png')} style={[styles.knobShadowImage, { width: 90, height: 90 }]} />
                   <Knob
                     min={0} max={1}
                     value={volume} onChange={setVolume}
@@ -237,11 +251,13 @@ const styles = StyleSheet.create({
     width: '95%',
     justifyContent: 'center',
     marginTop: '5%',
+    overflow: 'visible',
   },
   buttonContainer: {
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 0,
+    overflow: 'visible',
   },
   labelContainer: {
     position: 'absolute',
@@ -258,9 +274,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 10,
   },
-  rhythmButton: {
+  rhythmButtonWrapper: {
     width: '100%',
     aspectRatio: 96 / 212,
+    overflow: 'visible',
+  },
+  rhythmButton: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  rectShadowImage: {
+    position: 'absolute',
+    width: '100%',
+    height: 64,
+    bottom: -15,
+    left: 0,
   },
   rectButtonImage: {
     width: '100%',
@@ -286,9 +317,22 @@ const styles = StyleSheet.create({
     marginBottom: '4%', // group radios closer together
     height: 30,
   },
+  roundButtonWrapper: {
+    width: 28,
+    height: 28,
+    overflow: 'visible',
+  },
   roundButton: {
     width: 28,
     height: 28,
+  },
+  roundShadowImage: {
+    position: 'absolute',
+    width: 32,
+    height: 32,
+    top: 4,
+    left: 0,
+    opacity: 0.4,
   },
   roundButtonImage: {
     width: '100%',
@@ -339,6 +383,14 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     marginTop: 15,
+    overflow: 'visible',
+  },
+  knobShadowImage: {
+    position: 'absolute',
+    width: 80,
+    height: 80,
+    top: 15,
+    opacity: 0.5,
   },
   knobLabel: {
     fontSize: 14,
