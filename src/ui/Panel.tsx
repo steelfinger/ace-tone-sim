@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, ImageBackground } from 'react-native';
 import { useSeq } from '../state/sequencer';
 import { PATTERNS } from '../patterns';
@@ -26,6 +26,27 @@ export function Panel() {
   const setVolume = useSeq(s => s.setVolume);
   const mutes = useSeq(s => s.mutes);
   const toggleMute = useSeq(s => s.toggleMute);
+
+  const [lit, setLit] = useState(false);
+  useEffect(() => {
+    if (!running) {
+      setLit(false);
+      return;
+    }
+    const beatMs = (60 / bpm) * 1000;
+    let offTimer: ReturnType<typeof setTimeout>;
+    const flash = () => {
+      setLit(true);
+      offTimer = setTimeout(() => setLit(false), 80);
+    };
+    flash();
+    const interval = setInterval(flash, beatMs);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(offTimer);
+      setLit(false);
+    };
+  }, [running, bpm]);
 
   return (
     <View style={styles.screen}>
@@ -155,7 +176,7 @@ export function Panel() {
                   />
                 </View>
                 <View style={styles.powerIndicator}>
-                  <Image source={running ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={styles.roundButtonImage} />
+                  <Image source={lit ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={styles.roundButtonImage} />
                 </View>
                 <Text style={styles.volumeOffLabel}>OFF</Text>
               </View>
