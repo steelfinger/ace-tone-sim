@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 type Props = {
   min: number;
@@ -18,11 +18,12 @@ export function Knob({ min, max, value, onChange, image }: Props) {
   rot.value = angle; // sync on render
 
   const pan = Gesture.Pan()
+    .runOnJS(true)
     .onUpdate(e => {
       const delta = -e.translationY; // drag up = increase
       const sensitivity = (max - min) / 200; // 200 px drag for full sweep
       const next = Math.max(min, Math.min(max, value + delta * sensitivity));
-      runOnJS(onChange)(next);
+      onChange(next);
     });
 
   const style = useAnimatedStyle(() => ({
