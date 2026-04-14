@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Ace Tone FR-1",
+    "slug": "ace-tone-sim",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3a2418"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.acetone.fr1sim"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#3a2418"
+      },
+      "package": "com.acetone.fr1sim"
+    },
+    "plugins": ["./plugins/withAudioApiPatch"]
+  }
+}
