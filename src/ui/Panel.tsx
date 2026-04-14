@@ -48,10 +48,12 @@ export function Panel() {
             <View style={styles.buttonRowContainer}>
               {topPatterns.map((pat) => {
                 const on = selected.includes(pat.id);
+                const parts = pat.name.toUpperCase().split(' ');
                 return (
                   <View key={pat.id} style={styles.buttonContainer}>
                     <View style={styles.labelContainer}>
-                      <Text style={styles.buttonLabel}>{pat.name.toUpperCase()}</Text>
+                      <Text style={styles.buttonLabel}>{parts[0]}</Text>
+                      {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
                     </View>
                     <TouchableOpacity
                       style={styles.rhythmButton}
@@ -69,10 +71,12 @@ export function Panel() {
             <View style={styles.buttonRowContainer}>
               {bottomPatterns.map((pat) => {
                 const on = selected.includes(pat.id);
+                const parts = pat.name.toUpperCase().split(' ');
                 return (
                   <View key={pat.id} style={styles.buttonContainer}>
                     <View style={styles.labelContainer}>
-                      <Text style={styles.buttonLabel}>{pat.name.toUpperCase()}</Text>
+                      <Text style={styles.buttonLabel}>{parts[0]}</Text>
+                      {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
                     </View>
                     <TouchableOpacity
                       style={styles.rhythmButton}
@@ -220,7 +224,8 @@ const styles = StyleSheet.create({
   labelContainer: {
     position: 'absolute',
     bottom: '100%',
-    width: '100%',
+    marginBottom: 6,
+    width: 60,
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
@@ -229,8 +234,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#333',
     textAlign: 'center',
-    width: 55,
-    transform: [{ rotate: '-90deg' }],
+    lineHeight: 10,
   },
   rhythmButton: {
     width: '100%',
