@@ -1,11 +1,10 @@
+import { GainNode } from 'react-native-audio-api';
 import { getAudio } from './context';
 import type { VoiceId } from './voices';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const busses: Partial<Record<VoiceId, any>> = {};
+const busses: Partial<Record<VoiceId, GainNode>> = {};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getBus(v: VoiceId): any {
+export function getBus(v: VoiceId): GainNode {
   if (busses[v]) return busses[v];
   const { ctx, master } = getAudio();
   const g = ctx.createGain();
