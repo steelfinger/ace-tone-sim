@@ -94,6 +94,7 @@ export function Panel() {
           <View style={styles.bottomControls}>
             {/* Mute triggers + Start */}
             <View style={styles.triggerColumn}>
+              <Text style={styles.cancelSectionLabel}>CANCEL</Text>
               {MUTE_VOICES.map(({ id, label }) => (
                 <Pressable
                   key={id}
@@ -256,6 +257,7 @@ const styles = StyleSheet.create({
   triggerColumn: {
     flex: 1,
     paddingTop: 10,
+    paddingLeft: 16,
   },
   triggerRow: {
     flexDirection: 'row',
@@ -271,6 +273,18 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
+  },
+  cancelSectionLabel: {
+    position: 'absolute',
+    top: -18,
+    left: 0,
+    width: 70,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: '700',
+    fontStyle: 'italic',
+    fontFamily: 'Times New Roman',
+    color: '#2a2a2a',
   },
   triggerLabel: {
     fontSize: 15,
