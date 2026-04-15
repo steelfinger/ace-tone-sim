@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
@@ -15,7 +15,8 @@ export function Knob({ min, max, value, onChange, image }: Props) {
   // -135° at min, +135° at max
   const angle = ((value - min) / (max - min)) * 270 - 135;
   const rot = useSharedValue(angle);
-  rot.value = angle; // sync on render
+  // Sync shared value in an effect — avoids side effect during render
+  useEffect(() => { rot.value = angle; }, [angle, rot]);
 
   const pan = Gesture.Pan()
     .runOnJS(true)
