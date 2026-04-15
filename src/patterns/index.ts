@@ -3,6 +3,8 @@ import type { VoiceId } from '../audio/voices';
 export type Pattern = {
   id: string;
   name: string;
+  displayName?: string; // optional, defaults to `name`
+  letterSpacing?: number; // optional
   steps: 12 | 16;
   grid: Partial<Record<VoiceId, number[]>>; // missing voice = all rests
 };
@@ -22,7 +24,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'dixie', name: 'Dixie land', steps: 16, grid: {
+    id: 'dixie', name: 'Dixieland', displayName: "Dixie land", steps: 16, grid: {
       bd: p('1...1...1...1...'),
       sd: p('....1.......1...'),
       cy: p('1.1.1.1.1.1.1.1.'),
@@ -30,7 +32,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'western', name: 'Western', steps: 16, grid: {
+    id: 'western', name: 'Western', letterSpacing: -0.6, steps: 16, grid: {
       bd: p('1.......1.......'),
       sd: p('....1.......1...'),
       cb: p('1...1...1...1...'),
@@ -38,7 +40,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'rock', name: "Rock'n Roll", steps: 16, grid: {
+    id: 'rock', name: "Rock'n Roll", letterSpacing: -0.2, steps: 16, grid: {
       bd: p('1...1...1...1...'),
       sd: p('....1.......1...'),
       cy: p('1.1.1.1.1.1.1.1.'),
@@ -81,7 +83,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'beguine', name: 'Beguine', steps: 16, grid: {
+    id: 'beguine', name: 'Beguine', letterSpacing: -0.6, steps: 16, grid: {
       bd: p('1.....1.1.....1.'),
       lc: p('....1.......1...'),
       cl: p('1...1.1.1...1.1.'),
@@ -89,7 +91,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'rhumba', name: 'Rhumba', steps: 16, grid: {
+    id: 'rhumba', name: 'Rhumba', letterSpacing: -0.4, steps: 16, grid: {
       bd: p('1.....1...1.....'),
       sd: p('....1.......1...'),
       cl: p('1..1..1...1.1...'),
@@ -113,7 +115,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'chacha', name: 'Cha-Cha', steps: 16, grid: {
+    id: 'chacha', name: 'Cha-Cha', letterSpacing: -0.6, steps: 16, grid: {
       bd: p('1...1...1...1.1.'),
       sd: p('....1.......1...'),
       cb: p('1.1.1.1.1.1.1.1.'),
@@ -121,7 +123,7 @@ export const PATTERNS: Pattern[] = [
     }
   },
   {
-    id: 'sniffle', name: 'Sniffle', steps: 16, grid: {
+    id: 'sniffle', name: 'Sniffle', letterSpacing: -0.4, steps: 16, grid: {
       bd: p('1...1...1...1...'),
       sd: p('....1.......1...'),
       cy: p('1.1.1.1.1.1.1.1.'),

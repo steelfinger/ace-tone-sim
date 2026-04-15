@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Pressable, Image, ImageBackground } from 'react
 import { useSeq } from '../state/sequencer';
 import { PATTERNS } from '../patterns';
 import { Knob } from './Knob';
+import { RectangularButton } from './RectangularButton';
+import { RoundButton } from './RoundButton';
 import type { VoiceId } from '../audio/voices';
 
 const topPatterns = PATTERNS.slice(0, 8);
@@ -67,53 +69,27 @@ export function Panel() {
           {/* 2-row preset grid */}
           <View style={styles.gridSection}>
             <View style={styles.buttonRowContainer}>
-              {topPatterns.map((pat) => {
-                const on = selected.includes(pat.id);
-                const parts = pat.name.toUpperCase().split(' ');
-                return (
-                  <View key={pat.id} style={styles.buttonContainer}>
-                    <View style={styles.labelContainer}>
-                      <Text style={styles.buttonLabel}>{parts[0]}</Text>
-                      {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
-                    </View>
-                    <View style={styles.rhythmButtonWrapper}>
-                      {!on && <Image source={require('../../assets/rect-shadow.png')} style={styles.rectShadowImage} />}
-                      <Pressable
-                        style={styles.rhythmButton}
-                        onPress={() => toggle(pat.id, pat.steps)}
-                      >
-                        <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
-                      </Pressable>
-                    </View>
-                  </View>
-                );
-              })}
+              {topPatterns.map((pat) => (
+                <RectangularButton
+                  key={pat.id}
+                  pat={pat}
+                  selected={selected.includes(pat.id)}
+                  onPress={() => toggle(pat.id, pat.steps)}
+                />
+              ))}
             </View>
 
             <View style={{ height: '7%' }} />
 
             <View style={styles.buttonRowContainer}>
-              {bottomPatterns.map((pat) => {
-                const on = selected.includes(pat.id);
-                const parts = pat.name.toUpperCase().split(' ');
-                return (
-                  <View key={pat.id} style={styles.buttonContainer}>
-                    <View style={styles.labelContainer}>
-                      <Text style={styles.buttonLabel}>{parts[0]}</Text>
-                      {parts[1] && <Text style={styles.buttonLabel}>{parts[1]}</Text>}
-                    </View>
-                    <View style={styles.rhythmButtonWrapper}>
-                      {!on && <Image source={require('../../assets/rect-shadow.png')} style={styles.rectShadowImage} />}
-                      <Pressable
-                        style={styles.rhythmButton}
-                        onPress={() => toggle(pat.id, pat.steps)}
-                      >
-                        <Image source={on ? require('../../assets/rect-button-pressed.png') : require('../../assets/rect-button.png')} style={styles.rectButtonImage} />
-                      </Pressable>
-                    </View>
-                  </View>
-                );
-              })}
+              {bottomPatterns.map((pat) => (
+                <RectangularButton
+                  key={pat.id}
+                  pat={pat}
+                  selected={selected.includes(pat.id)}
+                  onPress={() => toggle(pat.id, pat.steps)}
+                />
+              ))}
             </View>
           </View>
 
@@ -128,12 +104,7 @@ export function Panel() {
                   style={styles.triggerRow}
                   onPress={() => toggleMute(id)}
                 >
-                  <View style={styles.roundButtonWrapper}>
-                    {!mutes[id] && <Image source={require('../../assets/round-shadow.png')} style={styles.roundShadowImage} />}
-                    <View style={styles.roundButton}>
-                      <Image source={mutes[id] ? require('../../assets/round-button-pressed.png') : require('../../assets/round-button.png')} style={styles.roundButtonImage} />
-                    </View>
-                  </View>
+                  <RoundButton pressed={!!mutes[id]} />
                   <Text style={styles.triggerLabel}>{label}</Text>
                   <View style={styles.triggerLabelLine} />
                 </Pressable>
@@ -143,12 +114,7 @@ export function Panel() {
                 style={[styles.triggerRow, { marginTop: 'auto', marginBottom: '15%' }]}
                 onPress={() => setRunning(!running)}
               >
-                <View style={styles.roundButtonWrapper}>
-                  {!running && <Image source={require('../../assets/round-shadow.png')} style={styles.roundShadowImage} />}
-                  <View style={styles.roundButton}>
-                    <Image source={running ? require('../../assets/round-button-pressed.png') : require('../../assets/round-button.png')} style={styles.roundButtonImage} />
-                  </View>
-                </View>
+                <RoundButton pressed={running} />
                 <Text style={styles.triggerLabel}>START</Text>
                 <View style={[styles.triggerLabelLine, { width: 40 }]} />
               </Pressable>
@@ -190,7 +156,7 @@ export function Panel() {
                   />
                 </View>
                 <View style={styles.powerIndicator}>
-                  <Image source={lit ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={styles.roundButtonImage} />
+                  <Image source={lit ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
                 </View>
                 <Text style={styles.volumeOffLabel}>OFF</Text>
               </View>
@@ -253,51 +219,6 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     overflow: 'visible',
   },
-  buttonContainer: {
-    flex: 1,
-    alignItems: 'center',
-    marginHorizontal: 0,
-    overflow: 'visible',
-  },
-  labelContainer: {
-    position: 'absolute',
-    bottom: '100%',
-    marginBottom: 6,
-    width: 60,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  buttonLabel: {
-    fontSize: 9,
-    fontWeight: '800',
-    color: '#333',
-    textAlign: 'center',
-    lineHeight: 10,
-  },
-  rhythmButtonWrapper: {
-    width: '100%',
-    aspectRatio: 96 / 212,
-    overflow: 'visible',
-  },
-  rhythmButton: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  rectShadowImage: {
-    position: 'absolute',
-    width: '100%',
-    height: 64,
-    bottom: -15,
-    left: 0,
-  },
-  rectButtonImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'stretch',
-  },
   bottomControls: {
     flex: 1,
     flexDirection: 'row',
@@ -316,28 +237,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: '4%', // group radios closer together
     height: 30,
-  },
-  roundButtonWrapper: {
-    width: 28,
-    height: 28,
-    overflow: 'visible',
-  },
-  roundButton: {
-    width: 28,
-    height: 28,
-  },
-  roundShadowImage: {
-    position: 'absolute',
-    width: 32,
-    height: 32,
-    top: 4,
-    left: 0,
-    opacity: 0.4,
-  },
-  roundButtonImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
   },
   cancelSectionLabel: {
     position: 'absolute',
