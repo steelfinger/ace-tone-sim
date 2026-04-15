@@ -2,6 +2,8 @@
 
 A faithful simulator of the [Ace Tone FR-1](https://www.vintagesynth.com/misc/fr1.php) (1967), one of the earliest consumer drum machines. All sounds are synthesized — no samples.
 
+![Ace Tone FR-1 Simulator](screenshot.jpg)
+
 ## Features
 
 - **8 synthesized voices** — Bass Drum, Snare, Low Conga, High Conga, Cymbal, Claves, Cowbell, Maracas
