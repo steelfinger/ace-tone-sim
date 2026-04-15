@@ -9,15 +9,16 @@ export default function App() {
   // Initialise the AudioContext eagerly
   useEffect(() => { getAudio(); }, []);
 
-  // Create the scheduler once — use refs to avoid stale closure issues
+  // Create the scheduler once in an effect — avoids ref mutation during render
   const schedulerRef = useRef<ReturnType<typeof createScheduler> | null>(null);
-  if (!schedulerRef.current) {
+  useEffect(() => {
     schedulerRef.current = createScheduler({
       getBpm: () => useSeq.getState().bpm,
       getPattern: () => useSeq.getState().getPattern(),
       onStep: (s) => useSeq.getState().setCurrentStep(s),
     });
-  }
+    return () => { schedulerRef.current?.stop(); };
+  }, []);
 
   const running = useSeq(s => s.running);
   useEffect(() => {
