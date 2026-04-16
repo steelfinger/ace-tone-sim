@@ -1,5 +1,8 @@
+import { LogBox } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+LogBox.ignoreLogs(['RecordingNotificationManager is not implemented on iOS']);
 import { Panel } from './src/ui/Panel';
 import { getAudio } from './src/audio/context';
 import { createScheduler } from './src/audio/scheduler';
