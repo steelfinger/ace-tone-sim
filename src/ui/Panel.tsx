@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { useSeq } from '../state/sequencer';
 import { PATTERNS } from '../patterns';
 import { Knob } from './Knob';
 import { RectangularButton } from './RectangularButton';
-import { RoundButton } from './RoundButton';
+import { LabeledRoundButton } from './LabeledRoundButton';
 import type { VoiceId } from '../audio/voices';
 
 const topPatterns = PATTERNS.slice(0, 8);
@@ -99,41 +99,29 @@ export function Panel() {
             <View style={styles.triggerColumn}>
               <Text style={styles.cancelSectionLabel}>CANCEL</Text>
               {MUTE_VOICES.map(({ id, label }) => (
-                <Pressable
+                <LabeledRoundButton
                   key={id}
-                  style={styles.triggerRow}
+                  label={label}
+                  pressed={!!mutes[id]}
                   onPress={() => toggleMute(id)}
-                >
-                  <RoundButton pressed={!!mutes[id]} />
-                  <Text style={styles.triggerLabel}>{label}</Text>
-                  <View style={styles.triggerLabelLine} />
-                </Pressable>
+                />
               ))}
 
-              <Pressable
-                style={[styles.triggerRow, { marginTop: 'auto', marginBottom: '15%' }]}
-                onPress={() => setRunning(!running)}
-              >
-                <RoundButton pressed={running} />
-                <Text style={styles.triggerLabel}>START</Text>
-                <View style={[styles.triggerLabelLine, { width: 40 }]} />
-              </Pressable>
+              <View style={{ marginTop: 'auto', marginBottom: '15%' }}>
+                <LabeledRoundButton
+                  label="START"
+                  pressed={running}
+                  onPress={() => setRunning(!running)}
+                />
+              </View>
             </View>
 
             {/* Knobs */}
             <View style={styles.dialColumn}>
               <View style={styles.knobContainer}>
                 <Text style={styles.knobLabel}>TEMPO</Text>
-                <View style={styles.tempoMarks}>
-                  <Text style={[styles.knobMark, { top: 48, left: -15 }]}>22</Text>
-                  <Text style={[styles.knobMark, { top: 24, left: -17 }]}>24</Text>
-                  <Text style={[styles.knobMark, { top: 4, left: -8 }]}>27</Text>
-                  <Text style={[styles.knobMark, { top: -10, left: 12 }]}>30</Text>
-                  <Text style={[styles.knobMark, { top: -14, left: 35 }]}>35</Text>
-                  <Text style={[styles.knobMark, { top: -10, left: 58 }]}>40</Text>
-                  <Text style={[styles.knobMark, { top: 4, left: 74 }]}>50</Text>
-                  <Text style={[styles.knobMark, { top: 24, left: 82 }]}>60</Text>
-                  <Text style={[styles.knobMark, { top: 48, left: 80 }]}>75</Text>
+                <View style={styles.tempoKnobScale}>
+                  <Image source={require('../../assets/tempo-scale.png')} style={{ width: 136, height: 136, resizeMode: 'contain' }} />
                 </View>
                 <View style={styles.blackKnobSizer}>
                   <Image source={require('../../assets/round-shadow.png')} style={styles.knobShadowImage} />
@@ -147,7 +135,10 @@ export function Panel() {
 
               <View style={[styles.knobContainer, { marginTop: 30 }]}>
                 <Text style={styles.knobLabel}>VOLUME</Text>
-                <View style={[styles.blackKnobSizer, { width: 90, height: 90, marginTop: 10 }]}>
+                <View style={styles.volumeKnobScale}>
+                  <Image source={require('../../assets/volume-scale.png')} style={{ width: 112, height: 112, resizeMode: 'contain' }} />
+                </View>
+                <View style={styles.volumeKnobSizer}>
                   <Image source={require('../../assets/round-shadow.png')} style={[styles.knobShadowImage, { width: 90, height: 90 }]} />
                   <Knob
                     min={0} max={1}
@@ -223,7 +214,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: '10%',
+    marginTop: '8%',
     marginBottom: '10%',
     paddingHorizontal: '5%',
   },
@@ -231,12 +222,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
     paddingLeft: 16,
-  },
-  triggerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: '4%', // group radios closer together
-    height: 30,
   },
   cancelSectionLabel: {
     position: 'absolute',
@@ -250,22 +235,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Times New Roman',
     color: '#2a2a2a',
   },
-  triggerLabel: {
-    fontSize: 15,
-    fontWeight: '700',
-    fontStyle: 'italic',
-    marginLeft: 18,
-    color: '#2a2a2a',
-    fontFamily: 'Times New Roman',
-  },
-  triggerLabelLine: {
-    position: 'absolute',
-    left: 45,
-    bottom: 0,
-    width: 80,
-    height: 1,
-    backgroundColor: '#333',
-  },
   dialColumn: {
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
@@ -274,14 +243,20 @@ const styles = StyleSheet.create({
   },
   knobContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     position: 'relative',
-    marginBottom: '10%',
+    marginBottom: 10,
   },
   blackKnobSizer: {
-    width: 75,
-    height: 75,
-    marginTop: 15,
+    width: 82,
+    height: 82,
+    marginTop: 20,
+    overflow: 'visible',
+  },
+  volumeKnobSizer: {
+    width: 90, 
+    height: 90, 
+    marginTop: 10,
     overflow: 'visible',
   },
   knobShadowImage: {
@@ -289,10 +264,11 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     top: 15,
-    opacity: 0.5,
+    opacity: 0.7,
   },
   knobLabel: {
     fontSize: 14,
+    lineHeight: 20,
     fontWeight: '700',
     fontStyle: 'italic',
     fontFamily: 'Times New Roman',
@@ -300,29 +276,22 @@ const styles = StyleSheet.create({
     marginTop: -4,
     marginBottom: 4,
   },
-  tempoMarks: {
+  tempoKnobScale: {
     position: 'absolute',
-    top: 30,
-    left: 0,
-    width: '100%',
-    height: '100%',
+    top: 5,
   },
-  knobMark: {
+  volumeKnobScale: {
     position: 'absolute',
-    fontSize: 10,
-    fontWeight: '600',
-    color: '#333',
-    fontFamily: 'Times New Roman',
+    top: 19,
   },
   volumeOffLabel: {
     position: 'absolute',
     bottom: -5,
-    left: -15,
+    left: -25,
     fontSize: 12,
     fontWeight: '700',
     fontStyle: 'italic',
     fontFamily: 'Times New Roman',
-    color: '#a00',
   },
   powerIndicator: {
     position: 'absolute',
