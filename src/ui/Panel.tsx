@@ -107,7 +107,7 @@ export function Panel() {
                 />
               ))}
 
-              <View style={{ marginTop: 'auto', marginBottom: '15%' }}>
+              <View style={{ marginTop: 'auto', marginBottom: 16 }}>
                 <LabeledRoundButton
                   label="START"
                   pressed={running}
@@ -133,10 +133,13 @@ export function Panel() {
                 </View>
               </View>
 
-              <View style={[styles.knobContainer, { marginTop: 30 }]}>
+              <View style={[styles.knobContainer, { marginTop: 40 }]}>
                 <Text style={styles.knobLabel}>VOLUME</Text>
                 <View style={styles.volumeKnobScale}>
                   <Image source={require('../../assets/volume-scale.png')} style={{ width: 112, height: 112, resizeMode: 'contain' }} />
+                </View>
+                <View style={styles.powerIndicator}>
+                  <Image source={lit ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
                 </View>
                 <View style={styles.volumeKnobSizer}>
                   <Image source={require('../../assets/round-shadow.png')} style={[styles.knobShadowImage, { width: 90, height: 90 }]} />
@@ -145,9 +148,6 @@ export function Panel() {
                     value={volume} onChange={setVolume}
                     image={require('../../assets/silver-knob.png')}
                   />
-                </View>
-                <View style={styles.powerIndicator}>
-                  <Image source={lit ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
                 </View>
                 <Text style={styles.volumeOffLabel}>OFF</Text>
               </View>
@@ -214,18 +214,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: '8%',
-    marginBottom: '10%',
-    paddingHorizontal: '5%',
+    marginTop: '5%',
+    marginBottom: 40,
+    marginLeft: 20,
+    marginRight: 40,
   },
   triggerColumn: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 20,
     paddingLeft: 16,
   },
   cancelSectionLabel: {
     position: 'absolute',
-    top: -18,
+    top: -12,
     left: 0,
     width: 70,
     textAlign: 'center',
@@ -237,8 +238,7 @@ const styles = StyleSheet.create({
   },
   dialColumn: {
     alignItems: 'flex-end',
-    justifyContent: 'flex-start',
-    paddingRight: 10,
+    justifyContent: 'flex-end',
     flex: 1,
   },
   knobContainer: {
