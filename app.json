@@ -14,15 +14,24 @@
     "ios": {
       "supportsTablet": false,
       "requireFullScreen": true,
-      "bundleIdentifier": "com.acetone.fr1sim"
+      "bundleIdentifier": "fi.steelfinger.rhythmace",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSMicrophoneUsageDescription": "Rhythm Ace uses the microphone API required by the audio engine. The app does not record audio."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3a2418"
       },
-      "package": "com.acetone.fr1sim"
+      "package": "fi.steelfinger.rhythmace"
     },
-    "plugins": []
+    "plugins": [],
+    "extra": {
+      "eas": {
+        "projectId": "668b49b2-cabe-4235-ab2d-24a5ad56969e"
+      }
+    }
   }
 }
