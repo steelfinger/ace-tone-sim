@@ -12,6 +12,7 @@
       "backgroundColor": "#3a2418"
     },
     "ios": {
+      "deploymentTarget": "16.0",
       "supportsTablet": false,
       "requireFullScreen": true,
       "bundleIdentifier": "fi.steelfinger.rhythmace",
