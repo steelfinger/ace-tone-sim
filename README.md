@@ -4,6 +4,10 @@ A faithful simulator of the [Ace Tone FR-1](https://www.vintagesynth.com/misc/fr
 
 ![Ace Tone FR-1 Simulator](screenshot.jpg)
 
+## Availability
+
+Now available on the [iOS App Store](https://apps.apple.com/us/app/rhythm-ace/id6763743868). Android users will have to wait a while.
+
 ## Features
 
 - **8 synthesized voices** — Bass Drum, Snare, Low Conga, High Conga, Cymbal, Claves, Cowbell, Maracas
