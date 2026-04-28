@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { useSeq } from '../state/sequencer';
 import { PATTERNS } from '../patterns';
 import { Knob } from './Knob';
 import { RectangularButton } from './RectangularButton';
 import { LabeledRoundButton } from './LabeledRoundButton';
+import { PowerIndicator } from './PowerIndicator';
 import type { VoiceId } from '../audio/voices';
 
 const topPatterns = PATTERNS.slice(0, 8);
@@ -28,27 +29,6 @@ export function Panel() {
   const setVolume = useSeq(s => s.setVolume);
   const mutes = useSeq(s => s.mutes);
   const toggleMute = useSeq(s => s.toggleMute);
-
-  const [lit, setLit] = useState(false);
-  useEffect(() => {
-    if (!running) {
-      setLit(false);
-      return;
-    }
-    const beatMs = (60 / bpm) * 1000;
-    let offTimer: ReturnType<typeof setTimeout>;
-    const flash = () => {
-      setLit(true);
-      offTimer = setTimeout(() => setLit(false), 80);
-    };
-    flash();
-    const interval = setInterval(flash, beatMs);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(offTimer);
-      setLit(false);
-    };
-  }, [running, bpm]);
 
   return (
     <View style={styles.screen}>
@@ -138,9 +118,7 @@ export function Panel() {
                 <View style={styles.volumeKnobScale}>
                   <Image source={require('../../assets/volume-scale.png')} style={{ width: 112, height: 112, resizeMode: 'contain' }} />
                 </View>
-                <View style={styles.powerIndicator}>
-                  <Image source={lit ? require('../../assets/red-light-on.png') : require('../../assets/red-light-off.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
-                </View>
+                <PowerIndicator />
                 <View style={styles.volumeKnobSizer}>
                   <Image source={require('../../assets/round-shadow.png')} style={[styles.knobShadowImage, { width: 90, height: 90 }]} />
                   <Knob
@@ -292,12 +270,5 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontStyle: 'italic',
     fontFamily: 'Times New Roman',
-  },
-  powerIndicator: {
-    position: 'absolute',
-    right: 25,
-    top: -37,
-    width: 32,
-    height: 32,
   },
 });

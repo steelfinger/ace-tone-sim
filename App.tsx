@@ -18,7 +18,16 @@ export default function App() {
     schedulerRef.current = createScheduler({
       getBpm: () => useSeq.getState().bpm,
       getPattern: () => useSeq.getState().getPattern(),
-      onStep: (s) => useSeq.getState().setCurrentStep(s),
+      onStep: (s, time) => {
+        // Defer the visual update to the audio-clock instant the hit actually plays,
+        // so anything driven by `currentStep` (e.g. PowerIndicator) stays in sync
+        // instead of firing up to LOOKAHEAD ms early.
+        const { ctx } = getAudio();
+        const delayMs = Math.max(0, (time - ctx.currentTime) * 1000);
+        setTimeout(() => {
+          if (useSeq.getState().running) useSeq.getState().setCurrentStep(s);
+        }, delayMs);
+      },
     });
     return () => { schedulerRef.current?.stop(); };
   }, []);
