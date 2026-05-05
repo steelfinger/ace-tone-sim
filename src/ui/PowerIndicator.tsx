@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { useSeq } from '../state/sequencer';
+import { PATTERNS } from '../patterns';
 
 const FLASH_MS = 80;
 
 export function PowerIndicator() {
   const running = useSeq(s => s.running);
   const currentStep = useSeq(s => s.currentStep);
-  const pattern = useSeq(s => s.getPattern());
+  const selected = useSeq(s => s.selected);
   const [lit, setLit] = useState(false);
 
   // Pulse on every quarter-note. 16-step grids = 16ths (÷4); 12-step waltz = 8ths (÷2).
-  const stepDiv = pattern?.steps === 12 ? 2 : 4;
+  const firstSteps = PATTERNS.find(p => selected.includes(p.id))?.steps;
+  const stepDiv = firstSteps === 12 ? 2 : 4;
 
   useEffect(() => {
     if (!running) { setLit(false); return; }
