@@ -55,10 +55,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 15,
-    fontWeight: '700',
-    fontStyle: 'italic',
+    fontFamily: 'TinosBoldItalic',
     color: '#2a2a2a',
-    fontFamily: 'Times New Roman',
     marginBottom: 3,
   },
   line: {

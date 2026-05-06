@@ -48,11 +48,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   buttonLabel: {
-    fontSize: 9,
-    fontWeight: '800',
+    fontSize: 10,
+    fontFamily: 'Oswald',
     color: '#333',
     textAlign: 'center',
-    lineHeight: 10,
+    lineHeight: 11,
   },
   rhythmButtonWrapper: {
     width: '100%',

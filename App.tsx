@@ -1,6 +1,12 @@
 import { LogBox } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useFonts } from 'expo-font';
+import { Tinos_400Regular, Tinos_400Regular_Italic, Tinos_700Bold, Tinos_700Bold_Italic } from '@expo-google-fonts/tinos';
+import { StardosStencil_700Bold } from '@expo-google-fonts/stardos-stencil';
+import { BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
+import { Oswald_700Bold } from '@expo-google-fonts/oswald';
 
 LogBox.ignoreLogs(['RecordingNotificationManager is not implemented on iOS']);
 import { Panel } from './src/ui/Panel';
@@ -9,6 +15,13 @@ import { createScheduler } from './src/audio/scheduler';
 import { useSeq } from './src/state/sequencer';
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    TinosBoldItalic: Tinos_700Bold_Italic,
+    StardosStencil: StardosStencil_700Bold,
+    BebasNeue: BebasNeue_400Regular,
+    Oswald: Oswald_700Bold,
+  });
+
   // Initialise the AudioContext eagerly
   useEffect(() => { getAudio(); }, []);
 
@@ -38,9 +51,13 @@ export default function App() {
     else schedulerRef.current!.stop();
   }, [running]);
 
+  if (!fontsLoaded) return null;
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Panel />
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Panel />
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }

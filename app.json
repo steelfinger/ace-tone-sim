@@ -28,7 +28,9 @@
       },
       "package": "fi.steelfinger.rhythmace"
     },
-    "plugins": [],
+    "plugins": [
+      "expo-font"
+    ],
     "extra": {
       "eas": {
         "projectId": "668b49b2-cabe-4235-ab2d-24a5ad56969e"
