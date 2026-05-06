@@ -38,8 +38,8 @@ export function PowerIndicator() {
 const styles = StyleSheet.create({
   indicator: {
     position: 'absolute',
-    right: 25,
-    top: -37,
+    right: -26,
+    top: -20,
     width: 32,
     height: 32,
   },

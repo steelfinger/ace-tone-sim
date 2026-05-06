@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSeq } from '../state/sequencer';
 import { PATTERNS } from '../patterns';
 import { Knob } from './Knob';
@@ -19,6 +20,7 @@ const MUTE_VOICES: { id: VoiceId; label: string }[] = [
 ];
 
 export function Panel() {
+  const insets = useSafeAreaInsets();
   const selected = useSeq(s => s.selected);
   const toggle = useSeq(s => s.toggleSelected);
   const running = useSeq(s => s.running);
@@ -29,6 +31,10 @@ export function Panel() {
   const setVolume = useSeq(s => s.setVolume);
   const mutes = useSeq(s => s.mutes);
   const toggleMute = useSeq(s => s.toggleMute);
+
+  // Keep the historical 40dp clearance on iPhones with no home indicator,
+  // and clear the Android nav bar / iOS home indicator when present.
+  const bottomClearance = Math.max(40, insets.bottom + 8);
 
   return (
     <View style={styles.screen}>
@@ -41,7 +47,7 @@ export function Panel() {
           {/* Header */}
           <View style={styles.header}>
             <Text style={styles.titleText}>
-              RHYTHM ACE <Text style={styles.subTitle}>{'  '}FULL AUTO</Text>
+              RHYTHM ACE <Text style={styles.subTitle}>{'  '}FULL{' '}AUTO</Text>
             </Text>
             <View style={styles.headerLine} />
           </View>
@@ -59,7 +65,7 @@ export function Panel() {
               ))}
             </View>
 
-            <View style={{ height: '7%' }} />
+            <View style={{ height: '4%' }} />
 
             <View style={styles.buttonRowContainer}>
               {bottomPatterns.map((pat) => (
@@ -74,7 +80,7 @@ export function Panel() {
           </View>
 
           {/* Bottom controls */}
-          <View style={styles.bottomControls}>
+          <View style={[styles.bottomControls, { marginBottom: bottomClearance }]}>
             {/* Mute triggers + Start */}
             <View style={styles.triggerColumn}>
               <Text style={styles.cancelSectionLabel}>CANCEL</Text>
@@ -113,7 +119,7 @@ export function Panel() {
                 </View>
               </View>
 
-              <View style={[styles.knobContainer, { marginTop: 40 }]}>
+              <View style={[styles.knobContainer, { marginTop: 20 }]}>
                 <Text style={styles.knobLabel}>VOLUME</Text>
                 <View style={styles.volumeKnobScale}>
                   <Image source={require('../../assets/volume-scale.png')} style={{ width: 112, height: 112, resizeMode: 'contain' }} />
@@ -150,34 +156,32 @@ const styles = StyleSheet.create({
   },
   internalUI: {
     flex: 1,
-    paddingTop: '38%', // push Title down enough to clear shadow
+    paddingTop: '36%', // push Title down enough to clear shadow
   },
   header: {
     marginBottom: '2%', // adaptive
     alignItems: 'flex-start',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '5%',
   },
   titleText: {
     fontSize: 32,
-    fontWeight: '900',
-    fontFamily: 'Impact',
+    fontFamily: 'StardosStencil',
     letterSpacing: 1,
-    color: '#2a2a2a',
+    color: '#222',
   },
   subTitle: {
     fontSize: 14,
-    fontWeight: '400',
-    fontFamily: 'Helvetica',
-    letterSpacing: 0,
+    fontFamily: 'BebasNeue',
+    letterSpacing: 1,
+    color: '#222',
   },
   headerLine: {
     height: 1,
     backgroundColor: '#333',
-    marginTop: 2,
     width: '100%',
   },
   gridSection: {
-    marginTop: '5%', // prominently push the rectangular buttons down
+    marginTop: '3%',
     alignItems: 'center',
     width: '100%',
   },
@@ -192,8 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: '5%',
-    marginBottom: 40,
+    marginTop: '2%',
     marginLeft: 20,
     marginRight: 40,
   },
@@ -204,14 +207,12 @@ const styles = StyleSheet.create({
   },
   cancelSectionLabel: {
     position: 'absolute',
-    top: -12,
+    top: -8,
     left: 0,
     width: 70,
     textAlign: 'center',
     fontSize: 15,
-    fontWeight: '700',
-    fontStyle: 'italic',
-    fontFamily: 'Times New Roman',
+    fontFamily: 'TinosBoldItalic',
     color: '#2a2a2a',
   },
   dialColumn: {
@@ -232,8 +233,8 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   volumeKnobSizer: {
-    width: 90, 
-    height: 90, 
+    width: 90,
+    height: 90,
     marginTop: 10,
     overflow: 'visible',
   },
@@ -247,9 +248,7 @@ const styles = StyleSheet.create({
   knobLabel: {
     fontSize: 14,
     lineHeight: 20,
-    fontWeight: '700',
-    fontStyle: 'italic',
-    fontFamily: 'Times New Roman',
+    fontFamily: 'TinosBoldItalic',
     color: '#222',
     marginTop: -4,
     marginBottom: 4,
@@ -267,8 +266,6 @@ const styles = StyleSheet.create({
     bottom: -5,
     left: -25,
     fontSize: 12,
-    fontWeight: '700',
-    fontStyle: 'italic',
-    fontFamily: 'Times New Roman',
+    fontFamily: 'TinosBoldItalic',
   },
 });
